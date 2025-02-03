@@ -16,9 +16,13 @@
     }
     {
       hostname = "homelab_pi";
-      system = "";
+      system = "aarch64-linux";
     }
     ];
+    extra = {
+      # nixpkgs.config.allowUnsupportedSystem = true;
+      nixpkgs.buildPlatform.system = "x86_64-linux";
+    };
   in {
     nixosConfigurations = builtins.listToAttrs (map (node: {
       name = node.hostname;
@@ -33,6 +37,7 @@
           ./hosts/${node.hostname}/configuration.nix
           ./hosts/${node.hostname}/hardware-configuration.nix
           ./hosts/${node.hostname}/disk-config.nix
+          extra
         ];
       };
     }) nodes);
