@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+cd nixos
+nix flake lock
+cd ..
+
+sudo nix run github:nix-community/nixos-anywhere \
+--extra-experimental-features "nix-command flakes" \
+-- --flake ./nixos#homelab_lenovo nixos@192.168.215.22
