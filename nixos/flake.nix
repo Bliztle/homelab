@@ -13,10 +13,12 @@
     {
       hostname = "homelab_lenovo";
       system = "x86_64-linux";
+      role = "server";
     }
     {
       hostname = "homelab_pi";
       system = "aarch64-linux";
+      role = "agent";
     }
     ];
     extra = {
@@ -28,7 +30,7 @@
       name = node.hostname;
       value = nixpkgs.lib.nixosSystem {
         specialArgs = {
-          meta = { hostname = node.hostname; };
+          meta = node;
         };
         system = node.system;
         modules = [

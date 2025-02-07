@@ -65,6 +65,7 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     btop
+    git
   ];
 
   # Enable the OpenSSH daemon.
