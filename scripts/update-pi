@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 ROOT=$SCRIPT_DIR/..
-HOMELAB_LENOVO_ADDRESS=192.168.215.20
+HOMELAB_LENOVO_ADDRESS=pi.home
 
 cd "$ROOT/nixos"
 nix flake lock
