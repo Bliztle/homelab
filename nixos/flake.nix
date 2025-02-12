@@ -23,7 +23,7 @@
     ];
     extra = {
       # nixpkgs.config.allowUnsupportedSystem = true;
-      nixpkgs.buildPlatform.system = "x86_64-linux";
+      # nixpkgs.buildPlatform.system = "x86_64-linux";
     };
   in {
     nixosConfigurations = builtins.listToAttrs (map (node: {
