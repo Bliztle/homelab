@@ -37,8 +37,6 @@
           disko.nixosModules.disko
           ./configuration.nix
           ./hosts/${node.hostname}/configuration.nix
-          ./hosts/${node.hostname}/hardware-configuration.nix
-          ./hosts/${node.hostname}/disk-config.nix
           extra
         ];
       };
