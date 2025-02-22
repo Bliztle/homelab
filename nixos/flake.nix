@@ -8,12 +8,12 @@
   outputs = { self, nixpkgs, disko, ... }@inputs: let
     nodes = [
     {
-      hostname = "homelab_lenovo";
+      hostname = "homelab-lenovo";
       system = "x86_64-linux";
       role = "server";
     }
     {
-      hostname = "homelab_pi";
+      hostname = "homelab-pi";
       system = "aarch64-linux";
       role = "agent";
     }
