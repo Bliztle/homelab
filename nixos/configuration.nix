@@ -3,7 +3,7 @@
 {
   imports =
     [ 
-      ./modules/k3s
+      ./modules/k3s.nix
       ./modules/neovim.nix
     ];
 
