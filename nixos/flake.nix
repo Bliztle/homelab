@@ -8,16 +8,18 @@
 
   outputs = { self, nixpkgs, deploy-rs, ... }@inputs: let
     nodes = [
-    {
-      hostname = "lenovo.home";
-      system = "x86_64-linux";
-      role = "server";
-    }
-    {
-      hostname = "pi.home";
-      system = "aarch64-linux";
-      role = "agent";
-    }
+      {
+        hostname = "homelab-lenovo";
+        ssh_hostname = "10.0.0.7";
+        system = "x86_64-linux";
+        role = "server";
+      }
+      {
+        hostname = "homelab-pi";
+        ssh_hostname = "10.0.0.6";
+        system = "aarch64-linux";
+        role = "agent";
+      }
     ];
   in {
     nixosConfigurations = builtins.listToAttrs (map (node: {
@@ -37,12 +39,13 @@
     deploy.nodes = builtins.listToAttrs (map (node: {
       name = node.hostname;
       value = {
-        hostname = node.hostname;
+        hostname = node.ssh_hostname;
+        sshUser = "nixos";
         remoteBuild = true;
         fastConnection = true;
-        profile.system = {
-          user = "nixos";
-          path = deploy-rs.lib.${node.system}.activate.nixos self node.hostname;
+        profiles.system = {
+          user = "root";
+          path = deploy-rs.lib.${node.system}.activate.nixos self.nixosConfigurations."${node.hostname}";
         };
       };
     }) nodes);
