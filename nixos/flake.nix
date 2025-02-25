@@ -4,9 +4,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-24.11";
     deploy-rs.url = "github:serokell/deploy-rs";
+    sops-nix.url = "github:Mic92/sops-nix";
   };
 
-  outputs = { self, nixpkgs, deploy-rs, ... }@inputs: let
+  outputs = { self, nixpkgs, deploy-rs, sops-nix, ... }@inputs: let
     nodes = [
       {
         hostname = "homelab-lenovo";
@@ -32,6 +33,7 @@
         modules = [
           ./configuration.nix
           ./hosts/${node.hostname}/configuration.nix
+	      sops-nix.nixosModules.sops
         ];
       };
     }) nodes);

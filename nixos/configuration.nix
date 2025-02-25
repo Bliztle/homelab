@@ -4,6 +4,7 @@
   imports =
     [ 
       ./modules/neovim.nix
+      ./modules/sops.nix
     ];
 
   security.sudo.wheelNeedsPassword = false; # Replace this with sudo-over-ssh
@@ -52,6 +53,10 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [ ];
     openssh.authorizedKeys.keys = [
+      # Added this as deployment prompts yubikey 4 times per host
+      # # # NVM, HAVING SSH CONFIGURED TO CONFIRM MEANS IT PROMPTS FOR ANY KEY
+      # "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMAYX+rUTXgpn6DyPfWB6tiPGpHSGkDOoVXwE2xfTnRH bliztle@zenbook"
+      # Yubikeys
       "sk-ecdsa-sha2-nistp256@openssh.com AAAAInNrLWVjZHNhLXNoYTItbmlzdHAyNTZAb3BlbnNzaC5jb20AAAAIbmlzdHAyNTYAAABBBNdyTSPteztylzzDebHqctbDo/XmoYI10JAkh+M0sSlevcvZbtFWID10D8Be89xFIHohLBk39i8nzTVbLAjP5IoAAAAEc3NoOg== yubikey-station"
       "sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIKZr8Sjw7Bab9e7/8SEnrVJp48PwIOarYLQsstwacFQaAAAABHNzaDo= yubikey-float"
     ];

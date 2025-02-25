@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    # ../../modules/wireguard
+    ../../modules/wireguard.nix
     # ../../modules/k3s
   ];
 
