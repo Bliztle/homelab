@@ -6,7 +6,7 @@ in
   services.k3s = {
     enable = true;
     role = meta.role;
-    tokenFile = "/var/lib/homelab/k3s/token";
+    tokenFile = /run/secrets/k3s_token;
     clusterInit = meta.hostname == "homelab-lenovo";
     serverAddr = if meta.hostname == "homelab-lenovo" then "" else "https://10.0.0.7:6443";
     extraFlags = toString ([ 

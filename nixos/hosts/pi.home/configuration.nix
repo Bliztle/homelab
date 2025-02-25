@@ -3,6 +3,8 @@
 {
   imports = [
     ./hardware-configuration.nix
+    # ../../modules/wireguard
+    # ../../modules/k3s
   ];
 
   # Use the extlinux boot loader. (NixOS wants to enable GRUB by default)

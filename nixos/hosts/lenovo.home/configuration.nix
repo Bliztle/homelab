@@ -1,9 +1,10 @@
-{ meta, ... }:
+{ ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
     ../../modules/media.nix
+    # ../../modules/k3s.nix
   ];
 
   # Bootloader.
