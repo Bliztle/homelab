@@ -15,4 +15,14 @@ in
       "--write-kubeconfig-mode \"0644\""
     ] else []));
   };
+
+  # Services required for Longhorn manager pods to work
+  services.openiscsi = {
+    enable = true;
+    name = "iqn.2016-04.com.open-iscsi:${meta.hostname}";
+  };
+  # programs.nix-ld.enable = true; # Allow dynamic linking of nix packages
+  systemd.tmpfiles.rules = [ # This is a fix for not finding iscsiadm
+    "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"
+  ];
 }
