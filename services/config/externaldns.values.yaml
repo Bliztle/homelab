@@ -1,0 +1,10 @@
+provider: pihole
+policy: upsert-only
+txtOwnerId: "homelab"
+pihole:
+  server: http://pihole-web.pihole-system.svc.cluster.local
+serviceAccount:
+  create: true
+  name: "external-dns"
+ingressClassFilters:
+  - ingress-nginx

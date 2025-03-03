@@ -1,0 +1,19 @@
+---
+persistentVolumeClaim:
+  enabled: true
+persistence:
+  media:
+    size: 1Ti
+    existingClaim: jellyfin-media-pvc
+    storageClass: nas-media
+    accessMode: ReadWriteMany
+ingress:
+  enabled: true
+  hosts:
+    - host: "jellyfin.local"
+      paths:
+        - path: "/"
+          pathType: ImplementationSpecific # Let ingress figure out how to handle this. Should be equivalent to "Prefix"
+service:
+  loadBalancerIP: 10.0.0.200
+replicaCount: 1

@@ -5,4 +5,5 @@ labels:
   pairs:
     app.kubernetes.io/managed-by: Kustomize
 resources:
-- ./config/metallb.kustomization.yaml
+  - ./config/metallb.kustomization.yaml
+  - ./config/jellyfin.kustomization.yaml

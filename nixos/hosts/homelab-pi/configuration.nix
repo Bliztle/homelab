@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/wireguard.nix
+    # ../../modules/media.nix
     # ../../modules/k3s
   ];
 
