@@ -51,6 +51,11 @@ in
           # List of IPs assigned to this peer within the tunnel subnet. Used to configure routing.
           allowedIPs = [ "10.100.0.2/32" ];
         }
+        { 
+          # Oneplus
+          publicKey = "hVwlQV0SuM0AsMF65GgmgS8CUdxVkhfZMp3YR9kgcEc=";
+          allowedIPs = [ "10.100.0.2/32" ];
+        }
       ];
     };
   };
