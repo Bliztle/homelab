@@ -4,9 +4,7 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "sd_mod" ];
   boot.initrd.kernelModules = [ "dm-snapshot" ];
@@ -27,12 +25,15 @@
   boot.initrd.luks.devices = {
     cryptBay2 = {
       device = "/dev/disk/by-uuid/e01c8061-509c-4d5c-ba8d-10199eda50df";
+      keyFile = "/etc/secrets/initrd/luks_cryptbay_key";
     };
     cryptBay3 = {
       device = "/dev/disk/by-uuid/fbe688c8-4eb8-4068-be9a-539352752a76";
+      keyFile = "/etc/secrets/initrd/luks_cryptbay_key";
     };
     cryptBay4 = {
       device = "/dev/disk/by-uuid/d34d1433-0bc8-49f7-befa-9648585caeb8";
+      keyFile = "/etc/secrets/initrd/luks_cryptbay_key";
     };
   };
 
