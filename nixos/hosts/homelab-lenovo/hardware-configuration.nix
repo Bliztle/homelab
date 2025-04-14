@@ -6,8 +6,8 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "sd_mod" ];
-  boot.initrd.kernelModules = [ "dm-snapshot" ];
+  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "sd_mod" "usb_storage" ];
+  boot.initrd.kernelModules = [ "dm-snapshot" "usb_storage" "sd_mod" "xhci_pci" "uas" ];
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
@@ -22,18 +22,28 @@
     options = [ "fmask=0022" "dmask=0022" ];
   };
 
+  # Hard wired drives from the NAS combined in a single logical volume
+  fileSystems."/mnt/media" = {
+    device = "/dev/media_vg/media_lv";
+    fsType = "ext4";
+  };
+
+  # Nas Media. Deprecated now, unless I get it working again
+  fileSystems."/mnt/nas/media" = {
+    device = "10.0.0.13:/volume1/media";
+    fsType = "nfs";
+    options = [ "vers=4" "nofail" "_netdev" "x-systemd.automount" "x-systemd.idle-timeout=600" ];
+  };
+
   boot.initrd.luks.devices = {
     cryptBay2 = {
       device = "/dev/disk/by-uuid/e01c8061-509c-4d5c-ba8d-10199eda50df";
-      keyFile = "/etc/secrets/initrd/luks_cryptbay_key";
     };
     cryptBay3 = {
       device = "/dev/disk/by-uuid/fbe688c8-4eb8-4068-be9a-539352752a76";
-      keyFile = "/etc/secrets/initrd/luks_cryptbay_key";
     };
     cryptBay4 = {
       device = "/dev/disk/by-uuid/d34d1433-0bc8-49f7-befa-9648585caeb8";
-      keyFile = "/etc/secrets/initrd/luks_cryptbay_key";
     };
   };
 
