@@ -13,16 +13,28 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/daeb5f1b-72e5-404f-b616-1be34ad0d447";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/daeb5f1b-72e5-404f-b616-1be34ad0d447";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/6C5A-830D";
-      fsType = "vfat";
-      options = [ "fmask=0022" "dmask=0022" ];
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/6C5A-830D";
+    fsType = "vfat";
+    options = [ "fmask=0022" "dmask=0022" ];
+  };
+
+  boot.initrd.luks.devices = {
+    cryptBay2 = {
+      device = "/dev/disk/by-uuid/e01c8061-509c-4d5c-ba8d-10199eda50df";
     };
+    cryptBay3 = {
+      device = "/dev/disk/by-uuid/fbe688c8-4eb8-4068-be9a-539352752a76";
+    };
+    cryptBay4 = {
+      device = "/dev/disk/by-uuid/d34d1433-0bc8-49f7-befa-9648585caeb8";
+    };
+  };
 
   swapDevices = [ ];
 
