@@ -9,8 +9,14 @@ repositories:
     url: https://kubernetes.github.io/ingress-nginx
   - name: bitnami
     url: https://charts.bitnami.com/bitnami
-  # - name: jellyfin
-  #   url: https://jellyfin.github.io/jellyfin-helm
+  - name: jellyfin
+    url: https://jellyfin.github.io/jellyfin-helm
+    # - name: k8s-home-lab 
+    #   url: https://k8s-home-lab.github.io/helm-charts
+  - name: mmuenker
+    url: https://gitlab.com/api/v4/projects/57546317/packages/helm/release
+  - name: mmuenker-nightly
+    url: https://gitlab.com/api/v4/projects/57546317/packages/helm/nightly
 ---
 releases:
   # Distributed storage. This is not actively used at the moment, but handles persistent volume claims from other pods
@@ -63,3 +69,19 @@ releases:
     version: 2.1.0
     values: 
       - ./config/jellyfin.values.yaml
+
+  # Audio Bookshelf
+  - name: audiobookshelf-mmuenker
+    namespace: media-system
+    chart: mmuenker-nightly/audiobookshelf
+    version: 0.0.2-nightly.34
+    values:
+      - ./config/audiobookshelf-mmuenker.values.yaml
+
+  # Audio Bookshelf
+  # - name: audiobookshelf
+  #   namespace: media-system
+  #   chart: k8s-home-lab/audiobookshelf
+  #   version: 2.0.0
+  #   values:
+  #     - ./config/audiobookshelf.values.yaml

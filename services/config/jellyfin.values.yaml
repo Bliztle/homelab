@@ -3,9 +3,9 @@ persistentVolumeClaim:
   enabled: true
 persistence:
   media:
-    size: 1Ti
-    existingClaim: jellyfin-media-pvc
-    storageClass: nas-media
+    size: 2Ti
+    existingClaim: jellyfin-media-wired-pvc # Previously jellyfin-media-pvc
+    storageClass: wired-lenovo-media # Previously nas-media
     accessMode: ReadWriteMany
 ingress:
   enabled: true
@@ -14,6 +14,18 @@ ingress:
       paths:
         - path: "/"
           pathType: ImplementationSpecific # Let ingress figure out how to handle this. Should be equivalent to "Prefix"
+    - host: "jellyfin.home"
+      paths:
+        - path: "/"
+          pathType: ImplementationSpecific # Let ingress figure out how to handle this. Should be equivalent to "Prefix"
+    - host: "cobra-candidate-hall.bliztle.com" # Allow outside dns to route here aswell
+      paths:
+        - path: "/"
+          pathType: ImplementationSpecific
+    - host: "jellyfin.bliztle.com" # Allow outside dns to route here aswell
+      paths:
+        - path: "/"
+          pathType: ImplementationSpecific
 service:
   loadBalancerIP: 10.0.0.200
 replicaCount: 1

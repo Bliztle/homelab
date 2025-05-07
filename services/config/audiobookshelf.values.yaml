@@ -1,0 +1,19 @@
+---
+persistentVolumeClaim:
+  enabled: true
+persistence:
+  media:
+    size: 2Ti
+    existingClaim: jellyfin-media-wired-pvc
+    storageClass: wired-lenovo-media
+    accessMode: ReadWriteMany
+ingress:
+  enabled: true
+  hosts:
+    - host: "audiobookshelf.home"
+      paths:
+        - path: "/"
+          pathType: ImplementationSpecific # Let ingress figure out how to handle this. Should be equivalent to "Prefix"
+service:
+  loadBalancerIP: 10.0.0.200
+replicaCount: 1
