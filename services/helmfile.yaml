@@ -13,10 +13,10 @@ repositories:
     url: https://jellyfin.github.io/jellyfin-helm
     # - name: k8s-home-lab 
     #   url: https://k8s-home-lab.github.io/helm-charts
-  - name: mmuenker
-    url: https://gitlab.com/api/v4/projects/57546317/packages/helm/release
   - name: mmuenker-nightly
     url: https://gitlab.com/api/v4/projects/57546317/packages/helm/nightly
+  - name: external-dns 
+    url: https://kubernetes-sigs.github.io/external-dns/
 ---
 releases:
   # Distributed storage. This is not actively used at the moment, but handles persistent volume claims from other pods
@@ -61,6 +61,16 @@ releases:
       - ./config/externaldns.values.yaml
     secrets:
       - ./config/externaldns.secrets.yaml
+
+  - name: externaldns-cloudflare
+    namespace: cloudflare-system
+    chart: bitnami/external-dns
+    version: 8.0.1
+    values:
+      - ./config/cloudflare.externaldns.values.yaml
+    secrets:
+      - ./config/cloudflare.externaldns.secrets.yaml
+
 
   # Jellyfin
   - name: jellyfin

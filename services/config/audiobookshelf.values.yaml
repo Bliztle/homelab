@@ -14,6 +14,10 @@ ingress:
       paths:
         - path: "/"
           pathType: ImplementationSpecific # Let ingress figure out how to handle this. Should be equivalent to "Prefix"
+    - host: "audiobookshelf.bliztle.com"
+      paths:
+        - path: "/"
+          pathType: ImplementationSpecific # Let ingress figure out how to handle this. Should be equivalent to "Prefix"
 service:
   loadBalancerIP: 10.0.0.200
 replicaCount: 1
