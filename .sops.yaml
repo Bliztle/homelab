@@ -1,6 +1,6 @@
 keys:
   - &yubikey E6028682743BF174D2E5B3AF92810374E3AC1EE1
-  - &zenbook age16dtszcmd8thqphvm2tr4vutq2va65qkhap7pt7d3402gknkr4dfswhgemd
+  - &zenbook age1vul2u2klyn5aqsqtzun5hqh0v4zw8nlfc9xczet2ahlswgn0uywshewe2c
   - &lenovo age1y0ts220sv87lxv540wh889zpc2lvanhp8cdpw25dauts59p6gy2q2ky666
   - &pi age1pffk3zqh8kpl2gn0aarw7zqv5q2dh9zvgd5jrj5natxnvyukkdeq0qtgw3
 creation_rules:

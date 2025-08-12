@@ -1,13 +1,19 @@
 {
   pkgs,
   meta,
+  # lib,
+  # config,
   ...
 }: {
   imports = [
     ./modules/neovim.nix
     ./modules/sops.nix
     ./modules/shell.nix
+    ./modules/laptop.nix
+    ./modules/k3s.nix
   ];
+  # ++ lib.optionals config.custom.laptop [./modules/laptop.nix]
+  # ++ lib.optionals config.custom.k3s [./modules/k3s.nix];
 
   security.sudo.wheelNeedsPassword = false; # Replace this with sudo-over-ssh
 
@@ -71,7 +77,6 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    bbcp
     btop
     git
     cryptsetup
@@ -89,16 +94,14 @@
   };
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [80 443 6443];
+  networking.firewall.allowedTCPPorts = [
+    80 # HTTP
+    443 # HTTPS
+    2379 # etcd client (k3s)
+    2380 # etcd server (k3s)
+    6443 # Kubernetes API server (k3s)
+  ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
-
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.11"; # Did you read the comment?
 }

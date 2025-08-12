@@ -1,7 +1,6 @@
 {...}: {
   imports = [
     ./hardware-configuration.nix
-    ../../modules/k3s.nix
   ];
 
   # Bootloader.
@@ -10,25 +9,15 @@
 
   users.users.nixos.hashedPassword = "$y$j9T$34zgPEP/8EJQk4h/P3Hqs0$4SF2QpFXOUCkQwwxVyKNwU8lX4QBgc/AzOM4zQZA/5D";
 
-  # Power management
-  services.logind = {
-    lidSwitch = "ignore";
-    lidSwitchDocked = "ignore";
-    lidSwitchExternalPower = "ignore";
-  };
+  # Options
+  custom.laptop = true;
+  custom.k3s = true;
 
-  # Minimise powerusage in all situations, as performance is of no importance at the moment
-  services.auto-cpufreq = {
-    enable = true;
-    settings = {
-      battery = {
-        governor = "powersave";
-        turbo = "never";
-      };
-      charger = {
-        governor = "powersave";
-        turbo = "never";
-      };
-    };
-  };
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "24.11"; # Did you read the comment?
 }

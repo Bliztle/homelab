@@ -7,8 +7,20 @@
     sops-nix.url = "github:Mic92/sops-nix";
   };
 
-  outputs = { self, nixpkgs, deploy-rs, sops-nix, ... }@inputs: let
+  outputs = {
+    self,
+    nixpkgs,
+    deploy-rs,
+    sops-nix,
+    ...
+  } @ inputs: let
     nodes = [
+      {
+        hostname = "homelab-zenbook";
+        ssh_hostname = "10.0.0.8";
+        system = "x86_64-linux";
+        role = "server";
+      }
       {
         hostname = "homelab-lenovo";
         ssh_hostname = "10.0.0.7";
@@ -24,32 +36,35 @@
     ];
   in {
     nixosConfigurations = builtins.listToAttrs (map (node: {
-      name = node.hostname;
-      value = nixpkgs.lib.nixosSystem {
-        specialArgs = {
-          meta = node;
+        name = node.hostname;
+        value = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            meta = node;
+          };
+          system = node.system;
+          modules = [
+            ./options.nix
+            ./hosts/${node.hostname}/configuration.nix
+            ./configuration.nix
+            sops-nix.nixosModules.sops
+          ];
         };
-        system = node.system;
-        modules = [
-          ./configuration.nix
-          ./hosts/${node.hostname}/configuration.nix
-	      sops-nix.nixosModules.sops
-        ];
-      };
-    }) nodes);
+      })
+      nodes);
 
     deploy.nodes = builtins.listToAttrs (map (node: {
-      name = node.hostname;
-      value = {
-        hostname = node.ssh_hostname;
-        sshUser = "nixos";
-        remoteBuild = true;
-        fastConnection = true;
-        profiles.system = {
-          user = "root";
-          path = deploy-rs.lib.${node.system}.activate.nixos self.nixosConfigurations."${node.hostname}";
+        name = node.hostname;
+        value = {
+          hostname = node.ssh_hostname;
+          sshUser = "nixos";
+          remoteBuild = true;
+          fastConnection = true;
+          profiles.system = {
+            user = "root";
+            path = deploy-rs.lib.${node.system}.activate.nixos self.nixosConfigurations."${node.hostname}";
+          };
         };
-      };
-    }) nodes);
+      })
+      nodes);
   };
 }
