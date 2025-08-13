@@ -1,0 +1,24 @@
+---
+service:
+  ui:
+    type: LoadBalancer
+    loadBalancerIP: 10.0.0.249
+    externalTrafficPolicy: Cluster
+
+ingress:
+  enabled: true
+  ingressClassName: ingress-nginx
+  host: longhorn.home
+  path: /
+  pathType: Prefix
+  tls: false
+
+  annotations:
+    # Tell Kubernetes which ingress controller to use
+    kubernetes.io/ingress.class: ingress-nginx
+    
+    # Tell external-dns to create a DNS entry in Pi-hole
+    external-dns.alpha.kubernetes.io/hostname: longhorn.home
+
+    # Optional: if you run on MetalLB and want external-dns to use the LB IP
+    external-dns.alpha.kubernetes.io/target: 10.0.0.249

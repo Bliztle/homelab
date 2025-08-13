@@ -17,6 +17,9 @@ in
         then ""
         else "https://10.0.0.7:6443";
       extraFlags = toString ([
+          "--disable servicelb"
+          "--disable traefik"
+          "--disable local-storage"
         ]
         ++ (
           if isServer
@@ -32,7 +35,7 @@ in
       enable = true;
       name = "iqn.2016-04.com.open-iscsi:${meta.hostname}";
     };
-    # programs.nix-ld.enable = true; # Allow dynamic linking of nix packages
+    programs.nix-ld.enable = true; # Allow dynamic linking of nix packages
     systemd.tmpfiles.rules = [
       # This is a fix for not finding iscsiadm
       "L+ /usr/local/bin - - - - /run/current-system/sw/bin/"

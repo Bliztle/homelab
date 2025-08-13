@@ -24,8 +24,9 @@ releases:
   - name: longhorn
     namespace: longhorn-system
     chart: longhorn/longhorn
-    version: 1.6.2
-    # version: 1.8.0
+    version: 1.9.1
+    values:
+      - ./config/longhorn.values.yaml
 
   # Load balancer and DHCP for k3s services
   - name: metallb
@@ -62,16 +63,6 @@ releases:
     secrets:
       - ./config/externaldns.secrets.yaml
 
-  - name: externaldns-cloudflare
-    namespace: cloudflare-system
-    chart: bitnami/external-dns
-    version: 8.0.1
-    values:
-      - ./config/cloudflare.externaldns.values.yaml
-    secrets:
-      - ./config/cloudflare.externaldns.secrets.yaml
-
-
   # Jellyfin
   - name: jellyfin
     namespace: media-system
@@ -87,11 +78,3 @@ releases:
     version: 0.0.2-nightly.34
     values:
       - ./config/audiobookshelf-mmuenker.values.yaml
-
-  # Audio Bookshelf
-  # - name: audiobookshelf
-  #   namespace: media-system
-  #   chart: k8s-home-lab/audiobookshelf
-  #   version: 2.0.0
-  #   values:
-  #     - ./config/audiobookshelf.values.yaml

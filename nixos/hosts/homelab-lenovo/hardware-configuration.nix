@@ -8,33 +8,43 @@
   modulesPath,
   ...
 }: {
-  imports = [(modulesPath + "/installer/scan/not-detected.nix")];
+  imports = [
+    (modulesPath + "/installer/scan/not-detected.nix")
+  ];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "sd_mod" "usb_storage"];
+  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "usb_storage" "sd_mod"];
   boot.initrd.kernelModules = ["dm-snapshot" "usb_storage" "sd_mod" "xhci_pci" "uas"];
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/daeb5f1b-72e5-404f-b616-1be34ad0d447";
+    device = "/dev/disk/by-uuid/7511f0d5-59a3-4392-9d93-7347677e877a";
     fsType = "ext4";
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/6C5A-830D";
+    device = "/dev/disk/by-uuid/1D8A-8F34";
     fsType = "vfat";
-    options = ["fmask=0022" "dmask=0022"];
+    options = ["fmask=0077" "dmask=0077"];
+  };
+
+  fileSystems."/mnt/longhorn/bay2" = {
+    device = "/dev/mapper/cryptBay2";
+    fsType = "ext4";
+  };
+
+  fileSystems."/mnt/longhorn/bay3" = {
+    device = "/dev/mapper/cryptBay3";
+    fsType = "ext4";
   };
 
   boot.initrd.luks.devices = {
-    cryptBay2 = {
-      # device = "/dev/disk/by-uuid/e01c8061-509c-4d5c-ba8d-10199eda50df";
-      device = "/dev/disk/by-id/ata-SAMSUNG_HM100UI_S2GHJ9EB318173";
-    };
-    cryptBay3 = {
-      # device = "/dev/disk/by-uuid/fbe688c8-4eb8-4068-be9a-539352752a76";
-      device = "/dev/disk/by-id/ata-SAMSUNG_HM100UI_S2GHJ9BB504068";
-    };
+    # Internal SSD NixOS partition
+    "luks-2bdaac85-cd93-4919-83f8-547c5d4e0b6f".device = "/dev/disk/by-uuid/2bdaac85-cd93-4919-83f8-547c5d4e0b6f";
+    # External HDD 0.9TB Longhorn #1
+    cryptBay2.device = "/dev/disk/by-id/ata-SAMSUNG_HM100UI_S2GHJ9EB318173";
+    # External HDD 0.9TB Longhorn #2
+    cryptBay3.device = "/dev/disk/by-id/ata-SAMSUNG_HM100UI_S2GHJ9BB504068";
   };
 
   swapDevices = [];

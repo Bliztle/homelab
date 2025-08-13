@@ -8,26 +8,22 @@
   modulesPath,
   ...
 }: {
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-  ];
+  imports = [(modulesPath + "/installer/scan/not-detected.nix")];
 
-  boot.initrd.availableKernelModules = ["xhci_pci" "uas" "thunderbolt" "vmd" "nvme" "usb_storage" "sd_mod" "rtsx_pci_sdmmc"];
-  boot.initrd.kernelModules = ["usb_storage" "sd_mod" "xhci_pci" "uas"];
+  boot.initrd.availableKernelModules = ["xhci_pci" "ahci" "sd_mod" "usb_storage"];
+  boot.initrd.kernelModules = ["dm-snapshot" "usb_storage" "sd_mod" "xhci_pci" "uas"];
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/2c4449aa-4295-42a7-9e5a-fa6fccf93912";
+    device = "/dev/disk/by-uuid/daeb5f1b-72e5-404f-b616-1be34ad0d447";
     fsType = "ext4";
   };
 
-  # boot.initrd.luks.devices."luks-9481500e-bed2-4b6a-8cf1-c8e81b8a5970".device = "/dev/disk/by-uuid/9481500e-bed2-4b6a-8cf1-c8e81b8a5970";
-
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/9D27-033F";
+    device = "/dev/disk/by-uuid/6C5A-830D";
     fsType = "vfat";
-    options = ["fmask=0077" "dmask=0077"];
+    options = ["fmask=0022" "dmask=0022"];
   };
 
   fileSystems."/mnt/longhorn/bay2" = {
@@ -41,14 +37,10 @@
   };
 
   boot.initrd.luks.devices = {
-    # Nix partition
-    # cryptBay1.device = "/dev/disk/by-uuid/23e628ca-75ff-44dc-b162-009322670866";
-    cryptBay1.device = "/dev/disk/by-id/nvme-KINGSTON_SNV2S1000G_50026B7686D3C7D9-part2";
-    # SSD Longhorn partition
-    cryptBay2.device = "/dev/disk/by-id/nvme-KINGSTON_SNV2S1000G_50026B7686D3C7D9-part3";
-    # HDD 1,8TB Longhorn - This should be optional
-    cryptBay3.device = "/dev/disk/by-id/wwn-0x50004cf20e9c09a1";
-    # cryptBay3.device = "/dev/disk/by-uuid/91cac90e-b577-4eb4-b458-cca7f4669c6e";
+    # External HDD 0.9TB Longhorn #1
+    cryptBay2.device = "/dev/disk/by-id/ata-SAMSUNG_HM100UI_S2GHJ9EB318173";
+    # External HDD 0.9TB Longhorn #2
+    cryptBay3.device = "/dev/disk/by-id/ata-SAMSUNG_HM100UI_S2GHJ9BB504068";
   };
 
   swapDevices = [];
@@ -58,8 +50,8 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp0s20f0u1.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp1s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.wlp2s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
