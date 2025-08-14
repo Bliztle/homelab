@@ -95,13 +95,19 @@
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
+    53 # DNS
     80 # HTTP
     443 # HTTPS
     2379 # etcd client (k3s)
     2380 # etcd server (k3s)
     6443 # Kubernetes API server (k3s)
+    # TODO: Remove this flannel, it is only UDP
+    8472 # Flannel / VXLAN (k3s, inter-node communication)
+    10250 # Kubelet Metrics (k3s)
   ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
+  networking.firewall.allowedUDPPorts = [
+    8472 # Flannel / VXLAN (k3s, inter-node communication)
+  ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 }

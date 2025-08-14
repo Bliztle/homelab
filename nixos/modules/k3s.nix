@@ -7,6 +7,11 @@
   isServer = meta.role == "server";
 in
   lib.mkIf config.custom.k3s {
+    # Look into if this solves any issues. Somehow it seems to be fine without it.
+    # https://github.com/NixOS/nixpkgs/blob/master/pkgs/applications/networking/cluster/k3s/docs/CLUSTER_UPKEEP.md
+    # When resetting the cluster this should also be turned off.
+    # Then when enabing, wiki says to enable this, deploy, then enable k3s and deploy again.
+    # services.etcd.enable = isServer;
     services.k3s = {
       enable = true;
       role = meta.role;
